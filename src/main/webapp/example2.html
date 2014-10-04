@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery.js"></script>
+</head>
+<body>
+<a href="index.html">back</a><br>
+<a id="stop" href="#">stop</a>
+<script>
+    $('#stop').click(function() {
+        $("#iframe").remove();
+        $("#stop").remove();
+    });
+    var num = 0;
+    var callback = function(uuid) {
+        if(num > 10) {
+            $('#result :first-child').remove();
+        }
+        $('#result').append("<div>" + uuid + "</div>");
+        num++;
+    }
+</script>
+<div id="result"></div>
+<iframe id="iframe" style="visibility:hidden;display:none" src="example2"></iframe>
+</body>
+</html>

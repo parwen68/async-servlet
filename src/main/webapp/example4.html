@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="./jquery.js"></script>
+</head>
+<body>
+<div id="result"></div>
+<a href="index.html">back</a>
+<script>
+    $.get('example4', function(data) {
+        $('#result').append(data);
+    });
+</script>
+</body>
+</html>
