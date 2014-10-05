@@ -5,6 +5,7 @@ import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
@@ -46,16 +47,15 @@ public class Example6Servlet extends HttpServlet {
                 "http://aftonbladet.se"
         );
 
-        executorService.submit(() ->
-            Observable
-                 .from(urls)
-                 .concatMap(url ->
-                         observable(url).onErrorReturn((t) -> "Error:" + t.toString()))
-                 .subscribe(
-                         (v) -> write(asyncContext, v),
-                         (e) -> write(asyncContext, e.toString()),
-                         asyncContext::complete)
-        );
+        Observable
+             .from(urls)
+             .subscribeOn(Schedulers.from(executorService))
+             .concatMap(url ->
+                     observable(url).onErrorReturn((t) -> "Error:" + t.toString()))
+             .subscribe(
+                     (v) -> write(asyncContext, v),
+                     (e) -> write(asyncContext, e.toString()),
+                     asyncContext::complete);
     }
 
     private void write(AsyncContext asyncContext, String s) {
