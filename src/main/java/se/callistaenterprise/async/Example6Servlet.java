@@ -49,7 +49,7 @@ public class Example6Servlet extends HttpServlet {
         executorService.submit(() ->
             Observable
                  .from(urls)
-                 .flatMap(url ->
+                 .concatMap(url ->
                          observable(url).onErrorReturn((t) -> "Error:" + t.toString()))
                  .subscribe(
                          (v) -> write(asyncContext, v),
